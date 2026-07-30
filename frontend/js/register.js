@@ -93,15 +93,21 @@
         body: JSON.stringify(payload),
       });
 
+      const data = await resp.json().catch(() => null);
+
       if (resp.ok) {
         form.hidden = true;
         success.hidden = false;
         return;
       }
 
-      const data = await resp.json().catch(() => null);
+      const message = typeof data?.message === 'string' && data.message.trim()
+        ? data.message.trim()
+        : null;
 
-      if (data && data.detail) {
+      if (message) {
+        if (note) note.textContent = message;
+      } else if (data && data.detail) {
         // Handle Pydantic style errors (array) or string details
         if (Array.isArray(data.detail)) {
           data.detail.forEach((err) => {
@@ -117,11 +123,7 @@
           });
           if (note) note.textContent = 'Please correct the highlighted fields.';
         } else if (typeof data.detail === 'string') {
-          if (resp.status === 409) {
-            if (note) note.textContent = data.detail;
-          } else {
-            if (note) note.textContent = data.detail;
-          }
+          if (note) note.textContent = data.detail;
         }
       } else {
         if (note) note.textContent = 'Registration failed. Please try again.';
