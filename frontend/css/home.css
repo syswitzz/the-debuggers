@@ -438,9 +438,17 @@ a {
   justify-content: space-between;
   gap: 20px;
 }
-.site-footer p {
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.footer-links a {
   color: #71819a;
   font-size: 0.7rem;
+}
+.footer-links a:hover {
+  color: #dbeafe;
 }
 /* ---------- Motion and responsive ---------- */
 .loader {
@@ -588,6 +596,10 @@ a {
   .site-footer > .container {
     flex-direction: column;
     text-align: center;
+  }
+  .footer-links {
+    flex-direction: column;
+    gap: 8px;
   }
   .cursor-glow {
     display: none;

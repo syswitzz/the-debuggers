@@ -126,6 +126,10 @@ section {
   margin-top: 29px;
 }
 
+.student-id {
+  grid-column: span 2;
+}
+
 label {
   display: block;
   color: #dce5f4;
@@ -257,5 +261,6 @@ footer {
   header { height: 70px; }
   .card { padding: 25px 18px; }
   .grid { grid-template-columns: 1fr; gap: 9px; }
+  .student-id { grid-column: auto; }
   .full { margin-top: 9px; }
 }

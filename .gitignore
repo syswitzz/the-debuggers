@@ -1,0 +1,12 @@
+.agents
+.cache
+.venv
+backend/.venv
+.codex
+.env
+.env.*
+.env.example
+__pycache__
+*.py[cod]
+*.db
+*.db-journal
