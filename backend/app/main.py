@@ -3,7 +3,7 @@
 from contextlib import asynccontextmanager
 import logging
 
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, Request, status, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -56,6 +56,11 @@ async def rate_limit_handler(_: Request, __: RateLimitExceeded) -> JSONResponse:
 @app.get("/health", tags=["health"])
 async def health_check() -> dict[str, bool]:
     return {"success": True}
+
+
+@app.head("/health", tags=["health"])
+async def health_check_head():
+    return Response(status_code=200)
 
 
 app.include_router(router)
