@@ -1,34 +1,45 @@
 """Minimal Resend email delivery for successful registrations."""
 
-from html import escape
 import logging
-
-import resend
+from html import escape
 
 from .config import Settings
 from .models import Registration
 
 logger = logging.getLogger(__name__)
 
+try:
+    import resend
+except ImportError:  # pragma: no cover - environment dependent
+    resend = None
 
-def _send(settings: Settings, recipient: str, subject: str, html: str) -> None:
-    if not settings.resend_api_key or not settings.resend_from_email:
-        logger.error("Resend is not configured; registration emails were not sent.")
+
+def _send(settings: Settings, to_email: str, subject: str, html: str) -> None:
+    """Send an email through Resend when configuration is present."""
+    if not settings.resend_api_key:
+        logger.info("Resend API key not configured; skipping registration email to %s", to_email)
         return
 
-    resend.api_key = settings.resend_api_key
-    resend.Emails.send(
-        {
-            "from": settings.resend_from_email,
-            "to": [recipient],
-            "subject": subject,
-            "html": html,
-        }
-    )
+    if resend is None:
+        logger.warning("resend package is not available; skipping registration email to %s", to_email)
+        return
+
+    try:
+        resend.api_key = settings.resend_api_key
+        resend.Emails.send(
+            {
+                "from": settings.resend_from_email or "onboarding@resend.dev",
+                "to": [to_email],
+                "subject": subject,
+                "html": html,
+            }
+        )
+    except Exception:
+        logger.exception("Failed to send registration email to %s", to_email)
 
 
 def send_registration_emails(settings: Settings, registration: Registration) -> None:
-    """Send a confirmation email to the applicant after successful registration."""
+    """Send a single confirmation email to the applicant."""
     name = escape(registration.name)
     email = escape(registration.email)
     student_id = escape(registration.student_id)
@@ -36,13 +47,11 @@ def send_registration_emails(settings: Settings, registration: Registration) -> 
     year = escape(registration.year)
     interest = escape(registration.interest or "")
 
-    interest_html = f'<p style="margin:6px 0"><strong>Interest:</strong> {interest}</p>' if interest else ''
+    interest_html = (
+        f'<p style="margin:6px 0"><strong>Interest:</strong> {interest}</p>' if interest else ""
+    )
 
-    _send(
-        settings,
-        registration.email,
-        "Your registration — The Debuggers",
-        f"""
+    html = f"""
 <main style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#111827; line-height:1.5; max-width:600px; margin:0 auto; padding:16px">
   <header style="text-align:left; margin-bottom:12px">
     <h2 style="margin:0 0 6px 0; font-size:20px;">Thanks for joining The Debuggers, {name}!</h2>
@@ -66,5 +75,6 @@ def send_registration_emails(settings: Settings, registration: Registration) -> 
     <p style="margin:8px 0 0 0">Cheers,<br><strong>The Debuggers</strong></p>
   </footer>
 </main>
-""",
-    )
+"""
+
+    _send(settings, registration.email, "Your registration — The Debuggers", html)

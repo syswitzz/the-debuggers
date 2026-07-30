@@ -7,7 +7,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     database_url: str
-    allowed_origins: str = "http://localhost:5500,http://127.0.0.1:5500"
+    allowed_origins: str = "http://localhost:5500,http://127.0.0.1:5500,https://sayam.eu.org"
     resend_api_key: str = ""
     resend_from_email: str = ""
     notification_email: str = "contact@sayam.eu.org"
