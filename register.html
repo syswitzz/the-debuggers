@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Join The Debuggers coding club at Gaya College of Engineering, Gaya." />
+    <title>Join The Debuggers</title>
+    <link rel="icon" href="assets/favicon.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/register.css" />
+  </head>
+  <body>
+    <div class="backdrop"></div>
+    <header>
+      <a class="brand" href="index.html"><img src="assets/logo.svg" width="36" height="36" alt="" /><span>The Debuggers</span></a>
+      <a href="index.html">← Back to home</a>
+    </header>
+    <main>
+      <section>
+        <div class="intro">
+          <p>GAYA COLLEGE OF ENGINEERING, GAYA</p>
+          <h1>Start your<br /><em>coding journey.</em></h1>
+          <span>Share a few details and we will keep you posted about club sessions.</span>
+        </div>
+        <div class="card">
+          <div class="heading">
+            <small>JOIN / THE DEBUGGERS</small>
+            <h2>Say hello</h2>
+            <p>No application process—just a simple way to connect.</p>
+          </div>
+          <form id="form" novalidate>
+            <div class="grid">
+              <label>Full name<input name="name" placeholder="Your full name" autocomplete="name" /><i></i></label>
+              <label>Email address<input name="email" type="email" placeholder="you@example.com" autocomplete="email" /><i></i></label>
+              <label>Branch<select name="branch"><option value="">Select branch</option><option>CSE</option><option>EEE</option><option>ME</option><option>CE</option><option>ECE</option><option>Other</option></select><i></i></label>
+              <label>Year<select name="year"><option value="">Select year</option><option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option></select><i></i></label>
+            </div>
+            <label class="full">Anything you want to learn? <span>(optional)</span><textarea name="interest" rows="3" placeholder="For example: web development, Python, or just the basics."></textarea><i></i></label>
+            <button type="submit">Connect with the club →</button>
+            <p class="note">We will only use this to contact you about The Debuggers.</p>
+          </form>
+          <div class="success" hidden>
+            <b>✓</b><small>THANKS FOR CONNECTING</small><h2>See you around.</h2>
+            <p>We will be in touch when the next session is planned.</p>
+            <a href="index.html">Back to home →</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>© 2026 The Debuggers · Gaya College of Engineering, Gaya</footer>
+    <script src="js/register.js"></script>
+  </body>
+</html>
