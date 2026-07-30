@@ -36,10 +36,10 @@ def register(
             status_code=status.HTTP_409_CONFLICT,
             content={"success": False, "message": "Email already registered."},
         )
-    if crud.get_by_roll_number(db, payload.roll_number):
+    if crud.get_by_student_id(db, payload.studentId):
         return JSONResponse(
             status_code=status.HTTP_409_CONFLICT,
-            content={"success": False, "message": "Roll number already registered."},
+            content={"success": False, "message": "Student ID already registered."},
         )
 
     try:

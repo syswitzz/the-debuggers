@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
 ROLL_NUMBER_PATTERN = re.compile(r"^\d{2}/[A-Z]{2,10}/\d{1,4}$")
 PHONE_PATTERN = re.compile(r"^[6-9]\d{9}$")
-ALLOWED_BRANCHES = {"CSE", "EEE", "ME", "CE", "ECE", "OTHER"}
+ALLOWED_BRANCHES = {"CSE", "EEE", "ME", "CE", "B.ARCH", "MNC"}
 ALLOWED_YEARS = {"1st Year", "2nd Year", "3rd Year", "4th Year"}
 
 
@@ -21,12 +21,12 @@ class RegistrationCreate(BaseModel):
     name: str = Field(min_length=2, max_length=100)
     email: EmailStr
     phone: str
-    roll_number: str
+    studentId: str
     branch: str
     year: str
-    reason: str = Field(min_length=12, max_length=1000)
+    interest: str = Field(default="")
 
-    @field_validator("name", "reason", mode="before")
+    @field_validator("name", "interest", mode="before")
     @classmethod
     def normalize_text(cls, value: str) -> str:
         return clean_text(value)
@@ -39,7 +39,11 @@ class RegistrationCreate(BaseModel):
     @field_validator("phone", mode="before")
     @classmethod
     def normalize_phone(cls, value: str) -> str:
-        return re.sub(r"[\s-]", "", value)
+        # Keep digits only, accept +91 or leading 0 and normalize to last 10 digits
+        digits = re.sub(r"\D", "", value)
+        if len(digits) > 10:
+            digits = digits[-10:]
+        return digits
 
     @field_validator("phone")
     @classmethod
@@ -48,17 +52,20 @@ class RegistrationCreate(BaseModel):
             raise ValueError("Phone number must be a valid 10-digit Indian mobile number.")
         return value
 
-    @field_validator("roll_number", mode="before")
+    @field_validator("studentId", mode="before")
     @classmethod
-    def normalize_roll_number(cls, value: str) -> str:
+    def normalize_student_id(cls, value: str) -> str:
         return clean_text(value).upper().replace(" ", "")
 
-    @field_validator("roll_number")
+    @field_validator("studentId")
     @classmethod
-    def validate_roll_number(cls, value: str) -> str:
-        if not ROLL_NUMBER_PATTERN.fullmatch(value):
-            raise ValueError("Roll number must use YY/BRANCH/ROLL, for example 25/CSE/68.")
-        return value
+    def validate_student_id(cls, value: str) -> str:
+        # Accept either an 11-digit registration ID or YY/BRANCH/ROLL
+        if value.isdigit() and len(value) == 11:
+            return value
+        if ROLL_NUMBER_PATTERN.fullmatch(value):
+            return value
+        raise ValueError("Student ID must be 11 digits or use YY/BRANCH/ROLL (e.g. 25/CSE/68).")
 
     @field_validator("branch", mode="before")
     @classmethod

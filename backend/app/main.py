@@ -19,7 +19,7 @@ settings = get_settings()
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    # SQLite needs no migration service for this small single-model application.
+    # PostgreSQL tables are created automatically for this small single-model application.
     Base.metadata.create_all(bind=engine)
     yield
 

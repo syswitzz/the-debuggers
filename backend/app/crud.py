@@ -11,12 +11,16 @@ def get_by_email(db: Session, email: str) -> Registration | None:
     return db.scalar(select(Registration).where(Registration.email == email))
 
 
-def get_by_roll_number(db: Session, roll_number: str) -> Registration | None:
-    return db.scalar(select(Registration).where(Registration.roll_number == roll_number))
+def get_by_student_id(db: Session, student_id: str) -> Registration | None:
+    return db.scalar(select(Registration).where(Registration.student_id == student_id))
 
 
 def create_registration(db: Session, registration: RegistrationCreate) -> Registration:
-    record = Registration(**registration.model_dump())
+    data = registration.model_dump()
+    # Map API camelCase studentId to DB snake_case student_id
+    if 'studentId' in data:
+        data['student_id'] = data.pop('studentId')
+    record = Registration(**data)
     db.add(record)
     db.commit()
     db.refresh(record)
