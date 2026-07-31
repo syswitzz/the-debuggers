@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     resend_api_key: str = ""
     resend_from_email: str = ""
     notification_email: str = "contact@sayam.eu.org"
+    whatsapp_group_link: str = ""
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
