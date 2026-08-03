@@ -58,9 +58,9 @@ def send_registration_emails(settings: Settings, registration: Registration) -> 
   </header>
   <section style="margin-top:12px">
     <h3 style="margin:0 0 8px 0; font-size:16px">Welcome to the community</h3>
-    <p style="margin:0 0 8px 0; color:#4b5563; font-size:14px">The Debuggers is a student-run coding club at Gaya College of Engineering. We organise hands-on workshops, hackathons, and study groups across topics like web development, algorithms, and systems.</p>
+    <p style="margin:0 0 8px 0; color:#4b5563; font-size:14px">The Debuggers is a student-run coding club at Gaya College of Engineering. We organise hands-on workshops, coding contests, and guide students across topics like web development, competitive programming and other domains.</p>
     <p style="margin:0 0 8px 0; color:#4b5563; font-size:14px">Join our communities:</p>
-    <p style="margin:0 0 6px 0"><a href="{settings.whatsapp_group_link}" style="color:#0ea5a4; text-decoration:none">WhatsApp group</a> · <a href="https://github.com/The-Debuggers-GCE" style="color:#0ea5a4; text-decoration:none">GitHub community</a></p>
+    <p style="margin:0 0 6px 0"><a href="https://sayam.eu.org/whatsapp-join-link" style="color:#0ea5a4; text-decoration:none">WhatsApp group</a> · <a href="https://sayam.eu.org/github-community-link" style="color:#0ea5a4; text-decoration:none">GitHub community</a></p>
     <p style="margin:0; color:#6b7280; font-size:14px">Your registration has been received — here are the details we saved:</p>
   </section>
   <section style="background:#fff; border-radius:8px; padding:12px; box-shadow:0 1px 0 rgba(0,0,0,0.04)">
